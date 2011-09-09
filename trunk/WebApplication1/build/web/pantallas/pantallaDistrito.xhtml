@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.prime.com.tr/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>Sistema de Votacion</title>
+    </h:head>
+    <h:body>
+        <h1>Distrito</h1>
+        <h:form id="formulario">
+            <h:panelGrid columns="3" id="panelCampos">
+                <h:outputLabel value="Codigo: "/>
+                <h:panelGroup>
+                    <h:inputText value="#{distritoControlador.codigo}"
+                                 id="inputCodigo"
+                                 required="true"
+                                 requiredMessage="El dato es requerido"
+                                 converterMessage="El dato debe ser un numero entero mayor a 0"
+                                 validatorMessage="El numero debe ser mayor a 0" >
+                                 <f:validateLongRange minimum="1"/>
+                    </h:inputText>
+                    <p:commandButton type="pust"
+                                    image="ui-icon-search"
+                                    onclick="dialogoDistrito.show()"
+                                    style="width: 25px; height: 25px;position: relative; top: 10px" />
+                </h:panelGroup>
+                <p:message for="inputCodigo" />
+
+                <h:outputLabel value="Nombre del Distrito: "/>
+                <h:inputText value="#{distritoControlador.nombre}"
+                             id="inputNombre"
+                             required="true"
+                             requiredMessage="El dato es requerido"/>
+                <p:message for="inputNombre" />
+
+                <h:outputLabel value="Departamento: "/>
+                <h:selectOneMenu value="#{distritoControlador.departamento}" 
+                                 id="selectDepartamento"
+                                 converter="DepartamentoConverter"
+                                 converterMessage="Error de conversion">
+                    <f:selectItems value="#{distritoControlador.listaDepartamento}"
+                                   var="departamento"
+                                   itemLabel="#{departamento.depNombre}"
+                                   id="itemsDelSelect"/>
+                </h:selectOneMenu>
+                <p:message for="selectDepartamento" />
+            </h:panelGrid>
+            <h:panelGrid columns="4" id="panelBotones">
+                <h:commandButton value="Guardar"
+                                 action="#{distritoControlador.grabar}"
+                                 style="width: 100px">
+                    <f:ajax render="panelCampos distritoTabla"/>
+                </h:commandButton>
+                <h:commandButton value="Borrar"
+                                 actionListener="#{distritoControlador.borrar}"
+                                 style="width: 100px"
+                                 id="botonBorrar">
+                    <f:ajax render="panelCampos distritoTabla"/>
+                </h:commandButton>
+                <h:commandButton value="Limpiar"
+                                 actionListener="#{distritoControlador.limpiar}"
+                                 immediate="true"
+                                 style="width: 100px">
+                    <f:ajax render="panelCampos"/>
+                </h:commandButton>
+                <h:commandButton value="Salir"
+                                 onclick="index"
+                                 action="../index.xhtml" immediate="true"
+                                 style="width: 100px">
+                </h:commandButton>
+            </h:panelGrid>
+            <p:dialog header="Seleccione un Distrito"
+                              widgetVar="dialogoDistrito"
+                              width="550"
+                              styleClass="outputpanel"
+                              height="530"
+                              closable="true"
+                              closeOnEscape="true"
+                              modal="true">
+
+                            <h:panelGrid>
+                                    <h:outputText id="listadoDeDistrito"
+                                                  styleClass="tituloTabla"/>
+                                            <p:dataTable  id="distritoTabla"
+                                                          paginator="true"
+                                                          selectionMode="single"
+                                                          rows="10"
+                                                          style="width:500px"
+                                                          paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown} "
+                                                          rowsPerPageTemplate="5,10,15"
+                                                          var="fila"
+                                                          value="#{distritoControlador.listarTodos}"
+                                                          rowStyleClass="#{empty rowIx or rowIx mod 2 ne 0 ? 'even-row' : 'odd-row'}"
+                                                          rowIndexVar="rowIx"
+                                                          update="inputCodigo, inputNombre, selectDepartamento, itemsDelSelect"
+                                                          onselectComplete="dialogoDistrito.hide()"
+                                                          selection="#{distritoControlador.distrito}">
+
+                                                          <p:column id="distrito"
+                                                                    sortBy="#{fila.disNombre}"
+                                                                    filterBy="#{fila.disNombre}">
+                                                                    <f:facet name="header">Distrito</f:facet>
+                                                                    <h:outputText id="distritoActual"
+                                                                                  value="#{fila.disNombre}" >
+                                                                    </h:outputText>
+                                                          </p:column>
+
+                                                          <p:column id="iddistrito"
+                                                                    sortBy="#{fila.idDis}"
+                                                                    filterBy="#{fila.idDis}"   >
+                                                                    <f:facet name="header">Codigo</f:facet>
+                                                                    <h:outputText id="codDistritoActual"
+                                                                                  value="#{fila.idDis}"/>
+                                                          </p:column>
+                                                          <p:column id="coddeparta"
+                                                                    sortBy="#{fila.departamento.depNombre}"
+                                                                    filterBy="#{fila.departamento.depNombre}"   >
+                                                                    <f:facet name="header">Departamento</f:facet>
+                                                                    <h:outputText id="CodDepartaActual"
+                                                                                  value="#{fila.departamento.depNombre}"/>
+                                                          </p:column>
+                                            </p:dataTable>
+                            </h:panelGrid>
+                    </p:dialog>
+        </h:form>      
+    </h:body>
+</html>

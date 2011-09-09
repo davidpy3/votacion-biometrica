@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.prime.com.tr/ui">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>Sistema de Votacion</title>
+    </h:head>
+    <h:body>
+        <h1>Lista</h1>
+        <h:form>
+            <h:panelGrid columns="2">
+                <h:outputLabel value="Codigo : "/>
+                <h:inputText value="#{listaControlador.lista.idLista}" id="inputCodigo"/>
+                <h:outputLabel value="Descripcion : "/>
+                <h:inputText value="#{listaControlador.lista.lisNombre}" id="inputNombre"/>
+                <h:outputLabel value="Contador : "/>
+                <h:inputText value="#{listaControlador.lista.contador}" id="inputContador"/>
+                <h:outputLabel value="Partido Politico : "/>
+                <h:selectOneMenu value="#{listaControlador.lista}">
+                    <f:selectItems value="#{listaControlador.listaPartido}" id="inputparNom"/>
+                </h:selectOneMenu>
+            </h:panelGrid>
+            <h:panelGrid columns="5">
+                <p:commandButton value="Grabar" action="#{listaControlador.grabar}"/>
+                <p:commandButton value="Borrar" action="#{listaControlador.borrar}"/>
+                <p:commandButton update="inputCodigo, inputNombre, inputparNom, inputContador"
+                                 value="Limpiar"
+                                 action="#{listaControlador.limpiarCampos}"/>
+                <p:commandButton type="pust" value="Buscar" onclick="dialogoLista.show()" immediate="true"/>
+                <p:commandButton value="Salir" onclick="index" action="../index.xhtml" immediate="true"/>
+            </h:panelGrid>
+            <p:dialog header="Seleccione una Lista"
+                      widgetVar="dialogoLista"
+                      width="720"
+                      styleClass="outputpanel"
+                      height="500"
+                      closable="true"
+                      closeOnEscape="true"
+                      modal="true">
+
+                <h:panelGrid>
+                    <h:outputText id="listadoDeLista"
+                                  value="Listas"
+                                  styleClass="tituloTabla"/>
+                    <p:dataTable  id="listaTabla"
+                                  paginator="true"
+                                  selectionMode="single"
+                                  rows="10"
+                                  style="width:685px"
+                                  paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown} "
+                                  rowsPerPageTemplate="5,10,15"
+                                  var="fila"
+                                  value="#{listaControlador.listarTodos}"
+                                  rowStyleClass="#{empty rowIx or rowIx mod 2 ne 0 ? 'even-row' : 'odd-row'}"
+                                  rowIndexVar="rowIx"
+                                  update="inputCodigo, inputNombre, inputContador, inputparNom"
+                                  onselectComplete="dialogoLista.hide()"
+                                  selection="#{listaControlador.lista}">
+
+                        <p:column id="lista"
+                                  sortBy="#{fila.lisNombre}"
+                                  filterBy="#{fila.lisNombre}">
+                            <f:facet name="header">Lista</f:facet>
+                            <h:outputText id="listaActual"
+                                          value="#{fila.lisNombre}" >
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column id="idlista"
+                                  sortBy="#{fila.idLista}"
+                                  filterBy="#{fila.idLista}"   >
+                            <f:facet name="header">Codigo</f:facet>
+                            <h:outputText id="idlistaActual"
+                                          value="#{fila.idLista}"/>
+                        </p:column>
+                        <p:column id="contador"
+                                  sortBy="#{fila.contador}"
+                                  filterBy="#{fila.contador}"   >
+                            <f:facet name="header">Contador</f:facet>
+                            <h:outputText id="contadorActual"
+                                          value="#{fila.contador}"/>
+                        </p:column>
+                        <p:column id="idpartido"
+                                  sortBy="#{fila.partidopolitico.partNombre}"
+                                  filterBy="#{fila.partidopolitico.partNombre}"   >
+                            <f:facet name="header">Partido Politico</f:facet>
+                            <h:outputText id="idpartidoActual"
+                                          value="#{fila.partidopolitico.partNombre}"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:panelGrid>
+            </p:dialog>
+
+        </h:form>
+    </h:body>
+</html>

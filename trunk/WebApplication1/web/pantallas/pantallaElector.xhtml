@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.prime.com.tr/ui">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>Sistema de Votacion</title>
+    </h:head>
+
+    <h:body>
+        <h1>Elector</h1>
+        <h:form>
+            <h:panelGrid columns="2">
+                <h:outputLabel value="Codigo :"/>
+                <h:inputText value="#{electorControlador.elector.idElec}" id="inputEid"/>
+                <h:outputLabel value="Nombre : "/>
+                <h:inputText value="#{electorControlador.elector.eleNombre}" id="inputEnom"/>
+                <h:outputLabel value="Apellido : "/>
+                <h:inputText value="#{electorControlador.elector.eleApellido}" id="inputEape"/>
+                <h:outputLabel value="C. I. :"/>
+                <h:inputText value="#{electorControlador.elector.eleCi}" id="inputEci"/>
+
+                <h:outputLabel value="Nacionalidad :"/>
+                <h:inputText value="#{electorControlador.elector.eleNacionalidad}" id="inputeleNac"/>
+
+                <h:outputLabel value="Identidicacion de la Huella Dactilar : "/>
+                <h:inputText value="#{electorControlador.elector.eleHuella}" id="inputEhu"/>
+                <h:outputLabel value="Fotografia : "/>
+                <h:inputText value="#{electorControlador.elector.eleFoto}" id="inputEfo"/>
+                <h:outputLabel value="Sexo : "/>
+                <h:inputText value="#{electorControlador.elector.eleSexo}" id="inputEse"/>
+                <h:outputLabel value="Fecha de Nacimiento : "/>
+                <h:inputText value="#{electorControlador.elector.fechaN}" id="inputEfn"/>
+                <h:outputLabel value="Direccion : "/>
+                <h:inputText value="#{electorControlador.elector.direccion}" id="inputEdi"/>
+                <h:outputLabel value="Fecha : "/>
+                <h:inputText value="#{electorControlador.elector.fecha}" id="inputEf"/>
+                <h:outputLabel value="Estado Civil : "/>
+                <h:inputText value="#{electorControlador.elector.eleEstacivil}" id="inputEec"/>
+
+                <h:outputLabel value="Local de Votacion"/>
+                <h:selectOneMenu value="#{electorControlador.elector}">
+                    <f:selectItems value="#{electorControlador.listaLocalidad}" id="inputElo"/>
+                </h:selectOneMenu>
+                
+                <h:outputLabel value="Profesion"/>
+                <h:selectOneMenu value="#{electorControlador.elector}">
+                    <f:selectItems value="#{electorControlador.listaProfesion}" id="inputEpro"/>
+                </h:selectOneMenu>
+                <h:outputLabel value=" Certificacion de Votacion :"/>
+                <h:inputText value="#{electorControlador.elector.eleVoto}" id="inputeleVo"/>
+
+                <h:outputLabel value="Numero de Mesa"/>
+                <h:selectOneMenu value="#{electorControlador.elector}">
+                    <f:selectItems value="#{electorControlador.listaMesas}" id="inputNMesa"/>
+                </h:selectOneMenu>
+            </h:panelGrid>
+            <h:panelGrid columns="5">
+                <p:commandButton value="Grabar" action="#{electorControlador.grabar}"/>
+                <p:commandButton value="Borrar" action="#{electorControlador.borrar}"/>
+                <p:commandButton update="inputEid, inputEnom, inputEape, inputEci, inputeleNac, inputEhu, inputEfo, inputEse, inputEfn, inputEdi, inputEf, inputEec, inputElo, inputEpro, inputeleVo, inputNMesa"
+                                 value="Limpiar"
+                                 action="#{electorControlador.limpiarCampos}" />
+                <p:commandButton type="pust"
+                                 value="Buscar"
+                                 onclick="dialogoElector.show()" immediate="true"/>
+                <p:commandButton value="Salir"
+                                 onclick="index"
+                                 action="../index.xhtml" immediate="true"/>
+            </h:panelGrid>
+            <p:dialog header="Seleccione un Elector"
+                      widgetVar="dialogoElector"
+                      width="1300"
+                      styleClass="outputpanel"
+                      height="500"
+                      closable="true"
+                      closeOnEscape="true"
+                      modal="true">
+
+                <h:panelGrid>
+                    <h:outputText id="listadoDeElectores"
+                                  value="Electores"
+                                  styleClass="tituloTabla"/>
+                    <p:dataTable  id="electorTabla"
+                                  paginator="true"
+                                  selectionMode="single"
+                                  rows="10"
+                                  style="width:24oopx"
+                                  paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown} "
+                                  rowsPerPageTemplate="5,10,15"
+                                  var="fila"
+                                  value="#{electorControlador.listarTodos}"
+                                  rowStyleClass="#{empty rowIx or rowIx mod 2 ne 0 ? 'even-row' : 'odd-row'}"
+                                  rowIndexVar="rowIx"
+                                  update="inputEid, inputEnom, inputEape, inputEci, inputeleNac, inputEhu, inputEfo, inputEse, inputEfn, inputEdi, inputEf, inputEec, inputElo, inputEpro, inputeleVo, inputNMesa"
+                                  onselectComplete="dialogoElector.hide()"
+                                  selection="#{electorControlador.elector}">
+
+                        <p:column id="electorn"
+                                  sortBy="#{fila.eleNombre}"
+                                  filterBy="#{fila.eleNombre}">
+                            <f:facet name="header">Elector</f:facet>
+                            <h:outputText id="electornActual"
+                                          value="#{fila.eleNombre}" >
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column id="eleapellido"
+                                  sortBy="#{fila.eleApellido}"
+                                  filterBy="#{fila.eleApellido}"   >
+                            <f:facet name="header">Apellido</f:facet>
+                            <h:outputText id="EleapellidoActual"
+                                          value="#{fila.eleApellido}"/>
+                        </p:column>
+                        <p:column id="idelector"
+                                  sortBy="#{fila.idElec}"
+                                  filterBy="#{fila.idElec}"   >
+                            <f:facet name="header">Codigo</f:facet>
+                            <h:outputText id="idelectorActual"
+                                          value="#{fila.idElec}"/>
+                        </p:column>
+                        <p:column id="eci"
+                                  sortBy="#{fila.eleCi}"
+                                  filterBy="#{fila.eleCi}"   >
+                            <f:facet name="header">C. I.</f:facet>
+                            <h:outputText id="eciActual"
+                                          value="#{fila.eleCi}"/>
+                        </p:column>
+                          <p:column id="elenacionalidad"
+                                    sortBy="#{fila.eleNacionalidad}"
+                                    filterBy="#{fila.eleNacionalidad}"   >
+                            <f:facet name="header">Nacionalidad.</f:facet>
+                            <h:outputText id="elenacionalActual"
+                                          value="#{fila.eleNacionalidad}"/>
+                        </p:column>
+                          <p:column id="ehuella"
+                                    sortBy="#{fila.eleHuella}"
+                                    filterBy="#{fila.eleHuella}"   >
+                            <f:facet name="header">Huella Dactilar</f:facet>
+                            <h:outputText id="ehuellaActual"
+                                          value="#{fila.eleHuella}"/>
+                        </p:column>
+                          <p:column id="efoto"
+                                    sortBy="#{fila.eleFoto}"
+                                    filterBy="#{fila.eleFoto}"   >
+                            <f:facet name="header">Fotografia</f:facet>
+                            <h:outputText id="efotoActual"
+                                          value="#{fila.eleFoto}"/>
+                        </p:column>
+                          <p:column id="esexo"
+                                    sortBy="#{fila.eleSexo}"
+                                    filterBy="#{fila.eleSexo}"   >
+                            <f:facet name="header">Sexo</f:facet>
+                            <h:outputText id="esexoActual"
+                                          value="#{fila.eleSexo}"/>
+                        </p:column>
+                          <p:column id="efn"
+                                    sortBy="#{fila.fechaN}"
+                                    filterBy="#{fila.fechaN}"   >
+                            <f:facet name="header">Fecha de Nacimiento</f:facet>
+                            <h:outputText id="efnActual"
+                                          value="#{fila.fechaN}"/>
+                        </p:column>
+                          <p:column id="edireccion"
+                                    sortBy="#{fila.direccion}"
+                                    filterBy="#{fila.direccion}"   >
+                            <f:facet name="header">Direccion</f:facet>
+                            <h:outputText id="edireccionActual"
+                                          value="#{fila.direccion}"/>
+                        </p:column>
+                          <p:column id="efecha"
+                                    sortBy="#{fila.fecha}"
+                                    filterBy="#{fila.fecha}"   >
+                            <f:facet name="header">Fecha</f:facet>
+                            <h:outputText id="efechaActual"
+                                          value="#{fila.fecha}"/>
+                        </p:column>
+                          <p:column id="eesci"
+                                    sortBy="#{fila.eleEstacivil}"
+                                    filterBy="#{fila.eleEstacivil}"   >
+                            <f:facet name="header">Estado Civil</f:facet>
+                            <h:outputText id="eesciActual"
+                                          value="#{fila.eleEstacivil}"/>
+                        </p:column>
+                          <p:column id="elocal"
+                                    sortBy="#{fila.localidad.loNombre}"
+                                    filterBy="#{fila.localidad.loNombre}"   >
+                            <f:facet name="header">Localidad</f:facet>
+                            <h:outputText id="elocalActual"
+                                          value="#{fila.localidad.loNombre}"/>
+                        </p:column>
+                          <p:column id="eprofesion"
+                                    sortBy="#{fila.profesion.proNombre}"
+                                    filterBy="#{fila.profesion.proNombre}"   >
+                            <f:facet name="header">Profesion</f:facet>
+                            <h:outputText id="eprofesionActual"
+                                          value="#{fila.profesion.proNombre}"/>
+                        </p:column>
+                         <p:column id="idmesa"
+                                   sortBy="#{fila.mesas.meNombre}"
+                                   filterBy="#{fila.mesas.meNombre}"   >
+                            <f:facet name="header">Numero de Mesa</f:facet>
+                            <h:outputText id="idmesaActual"
+                                          value="#{fila.mesas.meNombre}"/>
+                        </p:column>
+                         <p:column id="elevoto"
+                                   sortBy="#{fila.eleVoto}"
+                                   filterBy="#{fila.eleVoto}"   >
+                            <f:facet name="header">Certificacion de Votacion</f:facet>
+                            <h:outputText id="elevotoActual"
+                                          value="#{fila.eleVoto}"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:panelGrid>
+            </p:dialog>
+
+        </h:form>
+    </h:body>
+</html>

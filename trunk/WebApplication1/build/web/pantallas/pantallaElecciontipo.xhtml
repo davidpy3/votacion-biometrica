@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.prime.com.tr/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>Sistema de Votacion</title>
+    </h:head>
+    <h:body>
+        <h1>Tipo de Eleccion</h1>
+        <h:form>
+
+            <h:panelGrid columns="3" id="panelCampos">
+
+               <h:outputLabel value="Codigo: "/>
+
+               <h:panelGroup>
+                    <h:inputText value="#{elecciontipoControlador.codigo}"
+                             id="inputCodigo"
+                             required="true"
+                             requiredMessage="El dato es requerido"
+                             converterMessage="El dato debe ser un numero entero mayor a 0"
+                             validatorMessage="El numero debe ser mayor a 0">
+                             <f:validateLongRange minimum="1"/>
+                             <f:ajax event="change"/>
+                    </h:inputText>
+                    <p:commandButton type="pust"
+                                    image="ui-icon-search"
+                                    onclick="dialogoEleccionTipo.show()"
+                                    style="width: 25px; height: 25px;position: relative; top: 10px"/>
+                </h:panelGroup>
+
+                <p:message for="inputCodigo" />
+                <h:outputLabel value="Nombre: "/>
+                <p:inputText value="#{elecciontipoControlador.nombre}"
+                             id="inputNombre"
+                             required="true"
+                             requiredMessage="El dato es requerido" >
+                    <f:ajax event="change" />
+                </p:inputText>
+                <p:message for="inputNombre" />
+                <h:outputLabel value="Fecha Eleccion: "/>
+                <p:calendar id="calendarFecha"
+                            value="#{elecciontipoControlador.fechaEleccion}"
+                            pattern="dd/MM/yyyy"
+                            inputStyle="width: 110px"
+                            selectListener="#{elecciontipoControlador.fechaEleccion}">
+                            <f:convertDateTime dateStyle="default"
+                                               pattern="dd/MM/yyyy"/>
+                </p:calendar>
+            </h:panelGrid>
+            <h:panelGrid columns="4">
+                <h:commandButton value="Guardar"
+                                 actionListener="#{elecciontipoControlador.grabar}"
+                                 style="width: 100px"
+                                 type="submit">
+                   <f:ajax render="panelCampos eleccionTipoTabla"/>
+                </h:commandButton>
+                <h:commandButton value="Borrar"
+                                 actionListener="#{elecciontipoControlador.borrar}"
+                                 style="width: 100px">
+                    <f:ajax render="panelCampos eleccionTipoTabla"/>
+                </h:commandButton>
+                <h:commandButton  value="Limpiar"
+                                  actionListener="#{elecciontipoControlador.limpiar}"
+                                  immediate="true"
+                                  style="width: 100px">
+                    <f:ajax render="panelCampos"/>
+                </h:commandButton>
+
+                <h:commandButton value="Salir"
+                                 onclick="index"
+                                 action="../index.xhtml" immediate="true"
+                                 style="width: 100px"/>
+            </h:panelGrid>
+            <p:dialog header="Seleccione un Tipo de Eleccion"
+                              widgetVar="dialogoEleccionTipo"
+                              width="485"
+                              styleClass="outputpanel"
+                              height="505"
+                              closable="true"
+                              closeOnEscape="true"
+                              modal="true"
+                              draggable="false">
+
+                            <h:panelGrid>
+                                    <h:outputText id="listadoDeEleccionTIpo"
+                                                  styleClass="tituloTabla"/>
+                                            <p:dataTable  id="eleccionTipoTabla"
+                                                          paginator="true"
+                                                          selectionMode="single"
+                                                          rows="10"
+                                                          style="width:450px"
+                                                          paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown} "
+                                                          rowsPerPageTemplate="5,10,15"
+                                                          var="fila"
+                                                          value="#{elecciontipoControlador.listarTodos}"
+                                                          rowStyleClass="#{empty rowIx or rowIx mod 2 ne 0 ? 'even-row' : 'odd-row'}"
+                                                          rowIndexVar="rowIx"
+                                                          update="inputCodigo, inputNombre, calendarFecha"
+                                                          onselectComplete="dialogoEleccionTipo.hide()"
+                                                          selection="#{elecciontipoControlador.eleccionTipo}">
+
+                                                          <p:column id="eleccionTipo"
+                                                                    sortBy="#{fila.elecNombre}"
+                                                                    filterBy="#{fila.elecNombre}">
+                                                                    <f:facet name="header">Nombre</f:facet>
+                                                                    <h:outputText id="eleccionTipoActual"
+                                                                                  value="#{fila.elecNombre}" >
+                                                                    </h:outputText>
+                                                          </p:column>
+
+                                                          <p:column id="fechaInicial"
+                                                                    filterBy="#{fila.elecFecha}">
+                                                                    <f:facet name="header">Fecha&nbsp;Eleccion</f:facet>
+                                                                    <h:outputText id="fechaEleccionActual"
+                                                                                  value="#{fila.elecFecha}">
+                                                                        <f:convertDateTime dateStyle="default"
+                                                                                  pattern="dd/MM/yyyy"
+                                                                                  for="fechaEleccionActual"/>
+                                                                    </h:outputText>
+                                                           </p:column>
+
+                                                          <p:column id="idEleccionTipo"
+                                                                    sortBy="#{fila.idEleccion}"
+                                                                    filterBy="#{fila.idEleccion}"   >
+                                                                    <f:facet name="header">Codigo</f:facet>
+                                                                    <h:outputText id="codEleccionTipoActual"
+                                                                                  value="#{fila.idEleccion}"/>
+                                                          </p:column>
+                                            </p:dataTable>
+                            </h:panelGrid>
+                    </p:dialog>
+
+        </h:form>
+    </h:body>
+</html>

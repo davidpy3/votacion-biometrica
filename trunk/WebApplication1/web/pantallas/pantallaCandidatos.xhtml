@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.prime.com.tr/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>Sistema de Votacion</title>
+    </h:head>
+    <h:body>
+        <h1>Candidatos </h1>
+        <h:form>
+            <h:panelGrid columns="2">
+                <h:outputLabel value="Codigo : "/>
+                <h:inputText value="#{candidatoControlador.candidato.idCandidatos}" id="inputCaCo"/>
+                <h:outputLabel value="Nombre : "/>
+                <h:inputText value="#{candidatoControlador.candidato.canNombre}" id="inputCaNom"/>
+                <h:outputLabel value="Apellido : "/>
+                <h:inputText value="#{candidatoControlador.candidato.canApellido}" id="inputCaApe"/>
+                <h:outputLabel value="C. I.  :"/>
+                <h:inputText value="#{candidatoControlador.candidato.canCi}" id="inputCaCi"/>
+                <h:outputLabel value="Fotografia : "/>
+                <h:inputText value="#{candidatoControlador.candidato.canFoto}" id="inputCaFo"/>
+
+                <h:outputLabel value="Lista : "/>
+                <h:selectOneMenu value="#{candidatoControlador.candidato}">
+                    <f:selectItems value="#{candidatoControlador.listaLis}" id="inputCaLi"/>
+                </h:selectOneMenu>
+
+                <h:outputLabel value="Tipo de Eleccion : "/>
+                <h:selectOneMenu value="#{candidatoControlador.candidato}">
+                    <f:selectItems value="#{candidatoControlador.listaEleccionTipo}" id="inputEleTipo"/>
+                </h:selectOneMenu>
+
+                <h:outputLabel value="Fecha de Incripcion :"/>
+                <h:inputText value="#{candidatoControlador.candidato.feInscripcion}" id="inputFeInscripcion"/>
+
+                <h:outputLabel value="Departamento :"/>
+                <h:selectOneMenu value="#{candidatoControlador.candidato}">
+                    <f:selectItems value="#{candidatoControlador.listaDepartamento}" id="inputDep"/>
+                </h:selectOneMenu>
+
+                <h:outputLabel value="Distrito :"/>
+                <h:selectOneMenu value="#{candidatoControlador.candidato}">
+                    <f:selectItems value="#{candidatoControlador.listaDistritos}" id="inputDis"/>
+                </h:selectOneMenu>
+
+            </h:panelGrid>
+            <h:panelGrid columns="5">
+                <p:commandButton value="Guardar"
+                                 action="#{candidatoControlador.grabar}"/>
+                <p:commandButton value="Borrar"
+                                 action="#{candidatoControlador.borrar}"/>
+                <p:commandButton update="inputCaCo, inputCaNom, inputCaApe, inputCaCi, inputCaFo, inputCaLi, inputEleTipo, inputFeInscripcion, inputDep, inputDis"
+                                 value="Limpiar"
+                                 action="#{candidatoControlador.limpiarCampos}"/>
+                <p:commandButton type="pust"
+                                 value="Buscar"
+                                 onclick="dialogoCandidato.show()"/>
+
+                <p:commandButton value="Salir"
+                                 onclick="index"
+                                 action="../index.xhtml" immediate="true"/>
+            </h:panelGrid>
+          <!--  <p:dialog header="Seleccione un Candidato"
+                      widgetVar="dialogoCandidato"
+                      width="440"
+                      styleClass="outputpanel"
+                      height="500"
+                      closable="true"
+                      closeOnEscape="true"
+                      modal="true">
+
+                <h:panelGrid>
+                    <h:outputText id="listadoDeCandidato"
+                                  value="Candidato"
+                                  styleClass="tituloTabla"/>
+                    <p:dataTable  id="CandidatoTabla"
+                                  paginator="true"
+                                  selectionMode="single"
+                                  rows="10"
+                                  style="width:400px"
+                                  paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown} "
+                                  rowsPerPageTemplate="5,10,15"
+                                  var="fila"
+                                  value="#{candidatoControlador.listarTodos}"
+                                  rowStyleClass="#{empty rowIx or rowIx mod 2 ne 0 ? 'even-row' : 'odd-row'}"
+                                  rowIndexVar="rowIx"
+                                  update="inputCaCo, inputCaNom, inputCaApe, inputCaCi, inputCaFo, inputCaLi, inputEleTipo, inputFeInscripcion, inputDep, inputDis"
+                                  onselectComplete="dialogoPersonas.hide()"
+                                  selection="#{candidatoControlador.candidato}">
+
+                        <p:column id="nombre"
+                                  sortBy="#{fila.canNombre}"
+                                  filterBy="#{fila.canNombre}">
+                            <f:facet name="header">Nombre</f:facet>
+                            <h:outputText id="nombreActual"
+                                          value="#{fila.canNombre}" >
+                            </h:outputText>
+                        </p:column>
+                        <p:column id="codCandidato"
+                                  sortBy="#{fila.idCandidatos}"
+                                  filterBy="#{fila.idCandidatos}"   >
+                            <f:facet name="header">Codigo</f:facet>
+                            <h:outputText id="codCandidatoActual"
+                                          value="#{fila.idCandidatos}"/>
+                        </p:column>
+                        <p:column id="apellido"
+                                  sortBy="#{fila.canApellido}"
+                                  filterBy="#{fila.canApellido}"   >
+                            <f:facet name="header">Apellido</f:facet>
+                            <h:outputText id="apellidoActual"
+                                          value="#{fila.canApellido}"/>
+                        </p:column>
+                        <p:column id="caci"
+                                  sortBy="#{fila.canCi}"
+                                  filterBy="#{fila.canCi}"   >
+                            <f:facet name="header">C. I. </f:facet>
+                            <h:outputText id="caciActual"
+                                          value="#{fila.canCi}"/>
+                        </p:column>
+                        <p:column id="cafoto"
+                                  sortBy="#{fila.canFoto}"
+                                  filterBy="#{fila.canFoto}"   >
+                            <f:facet name="header">Fotografia</f:facet>
+                            <h:outputText id="cafotoActual"
+                                          value="#{fila.canFoto}"/>
+                        </p:column>
+                        <p:column id="cali"
+                                  sortBy="#{fila.lista.lisNombre}"
+                                  filterBy="#{fila.lista.lisNombre}"   >
+                            <f:facet name="header">Lista</f:facet>
+                            <h:outputText id="caliActual"
+                                          value="#{fila.lista.lisNombre}"/>
+                        </p:column>
+
+                        <p:column id="caeleccion"
+                                  sortBy="#{fila.elecciontipo.elecNombre}"
+                                  filterBy="#{fila.elecciontipo.elecNombre}"   >
+                            <f:facet name="header">Tipo Eleccion</f:facet>
+                            <h:outputText id="caeleccionActual"
+                                          value="#{fila.elecciontipo.elecNombre}"/>
+
+                        </p:column>
+
+                        <p:column id="feincrip"
+                                  sortBy="#{fila.feInscripcion}"
+                                  filterBy="#{fila.elecciontipo}"   >
+                            <f:facet name="header">Fecha de Inscripcion</f:facet>
+                            <h:outputText id="feincripActual"
+                                          value="#{fila.feInscripcion}"/>
+
+                        </p:column>
+                        <p:column id="candepart"
+                                  sortBy="#{fila.departamento.depNombre}"
+                                  filterBy="#{fila.departamento.depNombre}"   >
+                            <f:facet name="header">Departamento</f:facet>
+                            <h:outputText id="candepartActual"
+                                          value="#{departamento.depNombre}"/>
+
+                        </p:column>
+                        <p:column id="candis"
+                                  sortBy="#{fila.distrito.disNombre}"
+                                  filterBy="#{fila.distrito.disNombre}"   >
+                            <f:facet name="header">Distrito</f:facet>
+                            <h:outputText id="candisActual"
+                                          value="#{fila.distrito.disNombre}"/>
+
+                        </p:column>
+
+
+                    </p:dataTable>
+                </h:panelGrid>
+            </p:dialog>
+            -->
+        </h:form>
+    </h:body>
+</html>

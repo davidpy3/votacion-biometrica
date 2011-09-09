@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:h="http://java.sun.com/jsf/html">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>Sistema de Votacion</title>
+    </h:head>
+    <h:body>
+        <h1>Partido Politico</h1>
+        <h:form>
+
+            <h:panelGrid columns="2">
+                <h:outputLabel value="Codigo : "/>
+                <h:inputText value="#{partidopoliticoControlador.partidopolitico.idPartido}" id="inputCodigo"/>
+                <h:outputLabel value="Descripcion : "/>
+                <h:inputText value="#{partidopoliticoControlador.partidopolitico.partNombre}" id="inputNombre"/>
+                <h:outputLabel value="Siglas del Partido : "/>
+                <h:inputText value="#{partidopoliticoControlador.partidopolitico.partSiglas}" id="inputSiglas"/>
+                <h:outputLabel value="Lema del Patido : "/>
+                <h:inputText value="#{partidopoliticoControlador.partidopolitico.partLema}" id="inputLema"/>
+                <h:outputLabel value="Color del Partido : "/>
+                <h:inputText value="#{partidopoliticoControlador.partidopolitico.partColor}" id="inputColor"/>
+            </h:panelGrid>
+            <h:panelGrid columns="5">
+                <p:commandButton value="Guardar"
+                                 action="#{partidopoliticoControlador.grabar}"/>
+                <p:commandButton value="Borrar" action="#{partidopoliticoControlador.borrar}"/>
+                <p:commandButton update="inputCodigo, inputNombre, inputSiglas, inputLema, inputColor"
+                                 value="Limpiar"
+                                 action="#{partidopoliticoControlador.limpiarCampos}"/>
+                <p:commandButton type="pust"
+                                 value="Buscar"
+                                 onclick="dialogoPartidopolitico.show()"/>
+                <p:commandButton value="Salir" onclick="index" action="../index.xhtml" immediate="true"/>
+            </h:panelGrid>
+            <p:dialog header="Seleccione un Partido Politico"
+                      widgetVar="dialogoPartidopolitico"
+                      width="850"
+                      styleClass="outputpanel"
+                      height="500"
+                      closable="true"
+                      closeOnEscape="true"
+                      modal="true">
+
+                <h:panelGrid>
+                    <h:outputText id="listadoDePartidopolitico"
+                                  value="Partido Politico"
+                                  styleClass="tituloTabla"/>
+                    <p:dataTable  id="partidopoliticoTabla"
+                                  paginator="true"
+                                  selectionMode="single"
+                                  rows="10"
+                                  style="width:800px"
+                                  paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown} "
+                                  rowsPerPageTemplate="5,10,15"
+                                  var="fila"
+                                  value="#{partidopoliticoControlador.listarTodos}"
+                                  rowStyleClass="#{empty rowIx or rowIx mod 2 ne 0 ? 'even-row' : 'odd-row'}"
+                                  rowIndexVar="rowIx"
+                                  update="inputCodigo,inputNombre,inputSiglas,inputLema,inputColor"
+                                  onselectComplete="dialogoPartidopolitico.hide()"
+                                  selection="#{partidopoliticoControlador.partidopolitico}">
+
+                        <p:column id="partidopolitico"
+                                  sortBy="#{fila.partNombre}"
+                                  filterBy="#{fila.partNombre}">
+                            <f:facet name="header">Partido Politico</f:facet>
+                            <h:outputText id="partidopoliticoActual"
+                                          value="#{fila.partNombre}" >
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column id="idpartidopolitico"
+                                  sortBy="#{fila.idPartido}"
+                                  filterBy="#{fila.idPartido}"   >
+                            <f:facet name="header">Codigo</f:facet>
+                            <h:outputText id="codPartidopoliticoActual"
+                                          value="#{fila.idPartido}"/>
+                        </p:column>
+                         <p:column id="sipartidopolitico"
+                                   sortBy="#{fila.partSiglas}"
+                                   filterBy="#{fila.partSiglas}"   >
+                            <f:facet name="header">Siglas</f:facet>
+                            <h:outputText id="siPartidopoliticoActual"
+                                          value="#{fila.partSiglas}"/>
+                        </p:column>
+                         <p:column id="lepartidopolitico"
+                                   sortBy="#{fila.partLema}"
+                                   filterBy="#{fila.partLema}"   >
+                            <f:facet name="header">Lema</f:facet>
+                            <h:outputText id="lePartidopoliticoActual"
+                                          value="#{fila.partLema}"/>
+                        </p:column>
+                         <p:column id="copartidopolitico"
+                                   sortBy="#{fila.partColor}"
+                                   filterBy="#{fila.partColor}"   >
+                            <f:facet name="header">Color</f:facet>
+                            <h:outputText id="coPartidopoliticoActual"
+                                          value="#{fila.partColor}"/>
+                        </p:column>
+                        
+                    </p:dataTable>
+                </h:panelGrid>
+            </p:dialog>
+
+        </h:form>
+    </h:body>
+</html>

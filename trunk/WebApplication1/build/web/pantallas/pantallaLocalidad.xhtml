@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.prime.com.tr/ui">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>Sistema de Votacion</title>
+    </h:head>
+    <h:body>
+        <h1> Local </h1>
+        <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="Codigo : "/>
+                    <h:inputText value="#{localidadControlador.localidad.idLo}" id="inputCoLo"/>
+                    <h:outputLabel value="Nombre del Localidad : "/>
+                    <h:inputText value="#{localidadControlador.localidad.loNombre}" id="inputNoLo"/>
+                    <h:outputLabel value="Zona : "/>
+                    <h:selectOneMenu value="#{localidadControlador.localidad}">
+                        <f:selectItems value="#{localidadControlador.listaZona}" id="inputLozo"/>
+                 </h:selectOneMenu>
+                </h:panelGrid>
+            <h:panelGrid columns="5">
+                <p:commandButton value="Guardar" action="#{localidadControlador.grabar}"/>
+                <p:commandButton value="Borrar" action="#{localidadControlador.borrar}"/>
+                <p:commandButton update="inputCoLo, inputNoLo, inputLozo"
+                                 value="Limpiar"
+                                 action="#{localidadControlador.limpiarCampos}" />
+                <p:commandButton type="pust" value="Buscar" onclick="dialogoLocalidad.show()" immediate="true"/>
+                <p:commandButton value="Salir" onclick="index" action="../index.xhtml" immediate="true"/>
+            </h:panelGrid>
+            <p:dialog header="Seleccione una Localidad"
+                              widgetVar="dialogoLocalidad"
+                              width="540"
+                              styleClass="outputpanel"
+                              height="500"
+                              closable="true"
+                              closeOnEscape="true"
+                              modal="true">
+
+                            <h:panelGrid>
+                                    <h:outputText id="listadoDeLocalidad"
+                                                  value="Localidad"
+                                                  styleClass="tituloTabla"/>
+                                            <p:dataTable  id="localidadTabla"
+                                                          paginator="true"
+                                                          selectionMode="single"
+                                                          rows="10"
+                                                          style="width:500px"
+                                                          paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown} "
+                                                          rowsPerPageTemplate="5,10,15"
+                                                          var="fila"
+                                                          value="#{localidadControlador.listarTodos}"
+                                                          rowStyleClass="#{empty rowIx or rowIx mod 2 ne 0 ? 'even-row' : 'odd-row'}"
+                                                          rowIndexVar="rowIx"
+                                                          update="inputCoLo,inputNoLo,inputLozo"
+                                                          onselectComplete="dialogoLocalidad.hide()"
+                                                          selection="#{localidadControlador.localidad}">
+
+                                                          <p:column id="localidadn"
+                                                                    sortBy="#{fila.loNombre}"
+                                                                    filterBy="#{fila.loNombre}">
+                                                                    <f:facet name="header">Local</f:facet>
+                                                                    <h:outputText id="localidadnActual"
+                                                                                  value="#{fila.loNombre}" >
+                                                                    </h:outputText>
+                                                          </p:column>
+
+                                                          <p:column id="idlocalidad"
+                                                                    sortBy="#{fila.idLo}"
+                                                                    filterBy="#{fila.idLo}"   >
+                                                                    <f:facet name="header">Codigo</f:facet>
+                                                                    <h:outputText id="idlocalidadActual"
+                                                                                  value="#{fila.idLo}"/>
+                                                          </p:column>
+                                                          <p:column id="idzona"
+                                                                    sortBy="#{fila.zona.zonaNombre}"
+                                                                    filterBy="#{fila.zona.zonaNombre}"   >
+                                                                    <f:facet name="header">Zona</f:facet>
+                                                                    <h:outputText id="cozonaActual"
+                                                                                  value="#{fila.zona.zonaNombre}"/>
+                                                          </p:column>
+                                            </p:dataTable>
+                            </h:panelGrid>
+                    </p:dialog>
+        </h:form>
+    </h:body>
+</html>
