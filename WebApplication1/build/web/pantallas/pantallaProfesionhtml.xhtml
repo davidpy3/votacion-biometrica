@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.prime.com.tr/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>Sistema de Votacion</title>
+    </h:head>
+    <h:body>
+        <h1>Profesion</h1>
+        <h:form>
+            <h:panelGrid columns="2">
+                <h:outputLabel value="Codigo: "/>
+                <h:inputText value="#{profesionControlador.codigo}"
+                             id="inputCodigopro"/>
+                <h:outputLabel value="Nombre "/>
+                <h:inputText value="#{profesionControlador.nombre}" id="inputNombrepro"/>
+            </h:panelGrid>
+            <h:panelGrid columns="5">
+                <p:commandButton value="Guardar"
+                                 actionListener="#{profesionControlador.grabar}"
+                                 update="inputCodigopro, inputNombrepro, profesionTabla"/>
+                <p:commandButton value="Borrar"
+                                 actionListener="#{profesionControlador.borrar}"
+                                 update="inputCodigopro, inputNombrepro,profesionTabla "/>
+                <p:commandButton update="inputCodigopro, inputNombrepro"
+                                 value="Limpiar"
+                                 action="#{profesionControlador.limpiarCampos}"/>
+                <p:commandButton type="pust"
+                                 value="Buscar"
+                                 onclick="dialogoProfesion.show()"/>
+                <p:commandButton value="Salir"
+                                 onclick="index"
+                                 action="../index.xhtml" immediate="true"/>
+            </h:panelGrid>
+            <p:dialog header="Seleccione una Profesion"
+                      widgetVar="dialogoProfesion"
+                      width="440"
+                      styleClass="outputpanel"
+                      height="500"
+                      closable="true"
+                      closeOnEscape="true"
+                      modal="true">
+                <h:panelGrid>
+                    <h:outputText id="listadoDeProfesion"
+                                  value="Profesion"
+                                  styleClass="tituloTabla"/>
+                    <p:dataTable id="profesionTabla"
+                                 paginator="true"
+                                 selectionMode="single"
+                                 rows="10"
+                                 style="width:400px"
+                                 paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown} "
+                                 rowsPerPageTemplate="5,10,15"
+                                 var="fila"
+                                 value="#{profesionControlador.listarTodos}"
+                                 rowStyleClass="#{empty rowIx or rowIx mod 2 ne 0 ? 'even-row' : 'odd-row'}"
+                                 rowIndexVar="rowIx"
+                                 update="inputCodigopro,inputNombrepro"
+                                 onselectComplete="dialogoProfesion.hide()"
+                                 selection="#{profesionControlador.profesion}">
+                        <p:column id="profesion"
+                                  sortBy="#{fila.proNombre}"
+                                  filterBy="#{fila.proNombre}">
+                            <f:facet name="header">Profesion</f:facet>
+                            <h:outputText id="profesionActual"
+                                          value="#{fila.proNombre}" >
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column id="idprofesion"
+                                  sortBy="#{fila.idProfe}"
+                                  filterBy="#{fila.idProfe}"   >
+                            <f:facet name="header">Profesion</f:facet>
+                            <h:outputText id="codProfesionActual"
+                                          value="#{fila.idProfe}"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:panelGrid>
+            </p:dialog>
+
+        </h:form>
+    </h:body>
+</html>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.prime.com.tr/ui">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>Sistema de Votacion</title>
+    </h:head>
+    <h:body>
+        <h1>Zona</h1>
+        <h:form>
+            <h:panelGrid columns="2">
+                <h:outputLabel value="Codigo: "/>
+                <h:inputText value="#{zonaControlador.zona.idZona}" id="inputCodZ"/>
+                <h:outputLabel value="Nombre: "/>
+                <h:inputText value="#{zonaControlador.zona.zonaNombre}" id="inputNoZ"/>
+                <h:outputLabel value="Distrito: "/>
+                <h:selectOneMenu value="#{zonaControlador.zona}">
+                    <f:selectItems value="#{zonaControlador.listaDistritos}" id="inputCodDis" />
+                </h:selectOneMenu>
+            </h:panelGrid>
+            <h:panelGrid columns="5">
+                <p:commandButton value="Guardar" action="#{zonaControlador.grabar}"/>
+                <p:commandButton value="Borrar"
+                                 action="#{zonaControlador.borrar}"/>
+                <p:commandButton update="inputCodZ, inputNoZ, inputCodDis"
+                                 value="Limpiar"
+                                 action="#{zonaControlador.limpiarCampos}"/>
+                <p:commandButton type="pust" value="Buscar" onclick="dialogoZona.show()" immediate="true"/>
+                <p:commandButton value="Salir" onclick="index" action="../index.xhtml" immediate="true"/>
+            </h:panelGrid>
+            <p:dialog header="Seleccione una Zona"
+                              widgetVar="dialogoZona"
+                              width="540"
+                              styleClass="outputpanel"
+                              height="500"
+                              closable="true"
+                              closeOnEscape="true"
+                              modal="true">
+
+                            <h:panelGrid>
+                                    <h:outputText id="listadoDeZonas"
+                                                  value="Zona"
+                                                  styleClass="tituloTabla"/>
+                                            <p:dataTable  id="zonaTabla"
+                                                          paginator="true"
+                                                          selectionMode="single"
+                                                          rows="10"
+                                                          style="width:500px"
+                                                          paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown} "
+                                                          rowsPerPageTemplate="5,10,15"
+                                                          var="fila"
+                                                          value="#{zonaControlador.listarTodos}"
+                                                          rowStyleClass="#{empty rowIx or rowIx mod 2 ne 0 ? 'even-row' : 'odd-row'}"
+                                                          rowIndexVar="rowIx"
+                                                          update="inputCodZ, inputNoZ, inputCodDis"
+                                                          onselectComplete="dialogoZona.hide()"
+                                                          selection="#{zonaControlador.zona}">
+
+                                                          <p:column id="zona"
+                                                                    sortBy="#{fila.zonaNombre}"
+                                                                    filterBy="#{fila.zonaNombre}">
+                                                                    <f:facet name="header">Zona</f:facet>
+                                                                    <h:outputText id="zonaActual"
+                                                                                  value="#{fila.zonaNombre}" >
+                                                                    </h:outputText>
+                                                          </p:column>
+
+                                                          <p:column id="idzona"
+                                                                    sortBy="#{fila.idZona}"
+                                                                    filterBy="#{fila.idZona}"   >
+                                                                    <f:facet name="header">Codigo</f:facet>
+                                                                    <h:outputText id="idzonaActual"
+                                                                                  value="#{fila.idZona}"/>
+                                                          </p:column>
+                                                          <p:column id="idistrito"
+                                                                    sortBy="#{fila.distrito.disNombre}"
+                                                                    filterBy="#{fila.distrito.disNombre}"   >
+                                                                    <f:facet name="header">Distrito</f:facet>
+                                                                    <h:outputText id="idistritoActual"
+                                                                                  value="#{fila.distrito.disNombre}"/>
+                                                          </p:column>
+                                            </p:dataTable>
+                            </h:panelGrid>
+                    </p:dialog>
+        </h:form>
+    </h:body>
+</html>
