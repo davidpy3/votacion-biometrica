@@ -16,64 +16,201 @@ and open the template in the editor.
 
     <h:body>
         <h1>Elector</h1>
-        <h:form>
-            <h:panelGrid columns="2">
+        <h:form id="formulario">
+            <h:panelGrid columns="3" id="panelCampos">
                 <h:outputLabel value="Codigo :"/>
-                <h:inputText value="#{electorControlador.elector.idElec}" id="inputEid"/>
-                <h:outputLabel value="Nombre : "/>
-                <h:inputText value="#{electorControlador.elector.eleNombre}" id="inputEnom"/>
+                <h:panelGroup>
+                    <h:inputText value="#{electorControlador.codigo}"
+                             id="inputEid"
+                             required="true"
+                             requiredMessage="El dato es requerido"
+                             converterMessage="El dato debe ser un numero entero mayor a 0"
+                             validatorMessage="El numero debe ser mayor a 0">
+                             <f:validateLongRange minimum="1"/>
+                             <f:ajax event="change"/>
+                    </h:inputText>
+                    <p:commandButton type="pust"
+                                    image="ui-icon-search"
+                                    onclick="dialogoElector.show()"
+                                    style="width: 25px; height: 25px;position: relative; top: 10px"/>
+                </h:panelGroup>
+                <p:message for="inputEid" />
+                
+               <h:outputLabel value="Nombre : "/>
+               <h:inputText value="#{electorControlador.nombre}"
+                             id="inputEnom"
+                             required="true"
+                             requiredMessage="El dato es requerido">
+                    <f:ajax event="change"/>
+                </h:inputText>
+                <p:message for="inputEnom" />
+
                 <h:outputLabel value="Apellido : "/>
-                <h:inputText value="#{electorControlador.elector.eleApellido}" id="inputEape"/>
+                <h:inputText value="#{electorControlador.apellido}"
+                             id="inputEape"
+                             required="true"
+                             requiredMessage="El dato es requerido">
+                    <f:ajax event="change"/>
+                </h:inputText>
+                <p:message for="inputEape" />
+
                 <h:outputLabel value="C. I. :"/>
-                <h:inputText value="#{electorControlador.elector.eleCi}" id="inputEci"/>
+                <h:inputText value="#{electorControlador.ci}"
+                             id="inputEci"
+                             required="true"
+                             requiredMessage="El dato es requerido">
+                    <f:ajax event="change"/>
+                </h:inputText>
+                <p:message for="inputEci" />
 
                 <h:outputLabel value="Nacionalidad :"/>
-                <h:inputText value="#{electorControlador.elector.eleNacionalidad}" id="inputeleNac"/>
+                <h:inputText value="#{electorControlador.nacionalidad}" 
+                             id="inputeleNac"
+                             required="true"
+                             requiredMessage="El dato es requerido">
+                    <f:ajax event="change"/>
+                </h:inputText>
+                <p:message for="inputeleNac" />
 
                 <h:outputLabel value="Identidicacion de la Huella Dactilar : "/>
-                <h:inputText value="#{electorControlador.elector.eleHuella}" id="inputEhu"/>
+                <h:inputText value="#{electorControlador.huella}"
+                             id="inputEhu"
+                             required="true"
+                             requiredMessage="El dato es requerido">
+                    <f:ajax event="change"/>
+                </h:inputText>
+                <p:message for="inputEhu" />
+
                 <h:outputLabel value="Fotografia : "/>
-                <h:inputText value="#{electorControlador.elector.eleFoto}" id="inputEfo"/>
+                <h:inputText value="#{electorControlador.foto}"
+                             id="inputEfo"
+                             required="true"
+                             requiredMessage="El dato es requerido">
+                    <f:ajax event="change"/>
+                </h:inputText>
+                <p:message for="inputEfo" />
+
                 <h:outputLabel value="Sexo : "/>
-                <h:inputText value="#{electorControlador.elector.eleSexo}" id="inputEse"/>
+                <h:inputText value="#{electorControlador.sexo}"
+                             id="inputEse"
+                             required="true"
+                             requiredMessage="El dato es requerido">
+                    <f:ajax event="change"/>
+                </h:inputText>
+                <p:message for="inputEse" />
+
                 <h:outputLabel value="Fecha de Nacimiento : "/>
-                <h:inputText value="#{electorControlador.elector.fechaN}" id="inputEfn"/>
-                <h:outputLabel value="Direccion : "/>
-                <h:inputText value="#{electorControlador.elector.direccion}" id="inputEdi"/>
+                 <p:calendar id="calendarFechan"
+                             value="#{electorControlador.fechan}"
+                            pattern="dd/MM/yyyy"
+                            inputStyle="width: 110px"
+                            selectListener="#{electorControlador.fechan}">
+                            <f:convertDateTime dateStyle="default"
+                                               pattern="dd/MM/yyyy"/>
+                </p:calendar>
+                <h:outputLabel/>
+
+                
+               <h:outputLabel value="Direccion : "/>
+               <h:inputText value="#{electorControlador.direccion}"
+                             id="inputEdi"
+                             required="true"
+                             requiredMessage="El dato es requerido">
+                    <f:ajax event="change"/>
+                </h:inputText>
+                <p:message for="inputEdi" />
+
                 <h:outputLabel value="Fecha : "/>
-                <h:inputText value="#{electorControlador.elector.fecha}" id="inputEf"/>
+                 <p:calendar id="calendarFecha"
+                             value="#{electorControlador.fecha}"
+                            pattern="dd/MM/yyyy"
+                            inputStyle="width: 110px"
+                            selectListener="#{electorControlador.fecha}">
+                            <f:convertDateTime dateStyle="default"
+                                               pattern="dd/MM/yyyy"/>
+                </p:calendar>
+                <h:outputLabel/>
+
+
                 <h:outputLabel value="Estado Civil : "/>
-                <h:inputText value="#{electorControlador.elector.eleEstacivil}" id="inputEec"/>
+                <h:inputText value="#{electorControlador.estacivil}"
+                             id="inputEec"
+                             required="true"
+                             requiredMessage="El dato es requerido">
+                    <f:ajax event="change"/>
+                </h:inputText>
+                <p:message for="inputEec" />
 
                 <h:outputLabel value="Local de Votacion"/>
-                <h:selectOneMenu value="#{electorControlador.elector}">
-                    <f:selectItems value="#{electorControlador.listaLocalidad}" id="inputElo"/>
+                <h:selectOneMenu value="#{electorControlador.localidad}"
+                                 id="selectLocalidad"
+                                 converter="LocalidadConverter"
+                                 converterMessage="Error de conversion">
+                    <f:selectItems value="#{electorControlador.listaLocalidad}"
+                                   var="localidad"
+                                   itemLabel="#{localidad.loNombre}"
+                                   id="itemsDelSelect"/>
                 </h:selectOneMenu>
-                
+                <p:message for="selectLocalidad" />
+
+              
                 <h:outputLabel value="Profesion"/>
-                <h:selectOneMenu value="#{electorControlador.elector}">
-                    <f:selectItems value="#{electorControlador.listaProfesion}" id="inputEpro"/>
+                <h:selectOneMenu value="#{electorControlador.profesion}"
+                                 id="selectProfesion"
+                                 converter="ProfesionConverter"
+                                 converterMessage="Error de conversion">
+                    <f:selectItems value="#{electorControlador.listaProfesion}"
+                                   var="profesion"
+                                   itemLabel="#{profesion.proNombre}"
+                                   id="itemsDelSelect"/>
                 </h:selectOneMenu>
+                <p:message for="selectProfesion" />
+
                 <h:outputLabel value=" Certificacion de Votacion :"/>
-                <h:inputText value="#{electorControlador.elector.eleVoto}" id="inputeleVo"/>
+                <h:inputText value="#{electorControlador.voto}"
+                             id="inputeleVo"
+                             required="true"
+                             requiredMessage="El dato es requerido">
+                    <f:ajax event="change"/>
+                </h:inputText>
+                <p:message for="inputeleVo" />
 
                 <h:outputLabel value="Numero de Mesa"/>
-                <h:selectOneMenu value="#{electorControlador.elector}">
-                    <f:selectItems value="#{electorControlador.listaMesas}" id="inputNMesa"/>
+                <h:selectOneMenu value="#{electorControlador.mesas}"
+                                 id="selectMesas"
+                                 converter="MesasConverter"
+                                 converterMessage="Error de conversion">
+                    <f:selectItems value="#{electorControlador.listaMesas}"
+                                   var="mesas"
+                                   itemLabel="#{mesas.meNombre}"
+                                   id="itemsDelSelect"/>
                 </h:selectOneMenu>
+                <p:message for="selectMesas" />
+        
             </h:panelGrid>
-            <h:panelGrid columns="5">
-                <p:commandButton value="Grabar" action="#{electorControlador.grabar}"/>
-                <p:commandButton value="Borrar" action="#{electorControlador.borrar}"/>
-                <p:commandButton update="inputEid, inputEnom, inputEape, inputEci, inputeleNac, inputEhu, inputEfo, inputEse, inputEfn, inputEdi, inputEf, inputEec, inputElo, inputEpro, inputeleVo, inputNMesa"
-                                 value="Limpiar"
-                                 action="#{electorControlador.limpiarCampos}" />
-                <p:commandButton type="pust"
-                                 value="Buscar"
-                                 onclick="dialogoElector.show()" immediate="true"/>
-                <p:commandButton value="Salir"
+           <h:panelGrid columns="4" id="panelBotones">
+                <h:commandButton value="Guardar"
+                                 action="#{electorControlador.grabar}"
+                                 style="width: 100px">
+                    <f:ajax render="panelCampos electorTabla"/>
+                </h:commandButton>
+                <h:commandButton value="Borrar"
+                                 actionListener="#{electorControlador.borrar}"
+                                 style="width: 100px"
+                                 id="botonBorrar">
+                    <f:ajax render="panelCampos electorTabla"/>
+                </h:commandButton>
+                <h:commandButton value="Limpiar"
+                                 actionListener="#{electorControlador.limpiar}"
+                                 immediate="true"
+                                 style="width: 100px">
+                    <f:ajax render="panelCampos"/>
+                </h:commandButton>
+                <h:commandButton value="Salir"
                                  onclick="index"
-                                 action="../index.xhtml" immediate="true"/>
+                                 action="../index.xhtml" immediate="true"
+                                 style="width: 100px">
+                </h:commandButton>
             </h:panelGrid>
             <p:dialog header="Seleccione un Elector"
                       widgetVar="dialogoElector"
@@ -92,14 +229,14 @@ and open the template in the editor.
                                   paginator="true"
                                   selectionMode="single"
                                   rows="10"
-                                  style="width:24oopx"
+                                  style="width:2400px"
                                   paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown} "
                                   rowsPerPageTemplate="5,10,15"
                                   var="fila"
                                   value="#{electorControlador.listarTodos}"
                                   rowStyleClass="#{empty rowIx or rowIx mod 2 ne 0 ? 'even-row' : 'odd-row'}"
                                   rowIndexVar="rowIx"
-                                  update="inputEid, inputEnom, inputEape, inputEci, inputeleNac, inputEhu, inputEfo, inputEse, inputEfn, inputEdi, inputEf, inputEec, inputElo, inputEpro, inputeleVo, inputNMesa"
+                                  update="inputEid, inputEnom, inputEape, inputEci, inputeleNac, inputEhu, inputEfo, inputEse, inputEfn, inputEdi, inputEf, inputEec,  inputeleVo, itemsDelSelect, selectLocalidad, selectProfesion, selectMesas"
                                   onselectComplete="dialogoElector.hide()"
                                   selection="#{electorControlador.elector}">
 

@@ -37,8 +37,8 @@ and open the template in the editor.
                                     onclick="dialogoDepartamento.show()"
                                     style="width: 25px; height: 25px;position: relative; top: 10px"/>
                 </h:panelGroup>
-                
                 <p:message for="inputCodigo" />
+
                 <h:outputLabel value="Nombre del Departamento: "/>
                 <h:inputText value="#{departamentoControlador.nombre}" 
                              id="inputNombre"
@@ -47,6 +47,7 @@ and open the template in the editor.
                     <f:ajax event="change"/>
                 </h:inputText>
                 <p:message for="inputNombre" />
+
             </h:panelGrid>
             <h:panelGrid columns="4">
                 <h:commandButton value="Guardar"

@@ -16,26 +16,81 @@ and open the template in the editor.
     <h:body>
         <h1>Lista</h1>
         <h:form>
-            <h:panelGrid columns="2">
+            <h:panelGrid columns="3" id="panelCampos">
+          
                 <h:outputLabel value="Codigo : "/>
-                <h:inputText value="#{listaControlador.lista.idLista}" id="inputCodigo"/>
+                 <h:panelGroup>
+                     <h:inputText value="#{listaControlador.codigo}"
+                             id="inputCodigo"
+                             required="true"
+                             requiredMessage="El dato es requerido"
+                             converterMessage="El dato debe ser un numero entero mayor a 0"
+                             validatorMessage="El numero debe ser mayor a 0">
+                             <f:validateLongRange minimum="1"/>
+                             <f:ajax event="change"/>
+                    </h:inputText>
+                    <p:commandButton type="pust"
+                                    image="ui-icon-search"
+                                    onclick="dialogoLista.show()"
+                                    style="width: 25px; height: 25px;position: relative; top: 10px"/>
+                </h:panelGroup>
+                <p:message for="inputCodigo" />
+
                 <h:outputLabel value="Descripcion : "/>
-                <h:inputText value="#{listaControlador.lista.lisNombre}" id="inputNombre"/>
+                <h:inputText value="#{listaControlador.nombre}"
+                             id="inputNombre"
+                             required="true"
+                             requiredMessage="El dato es requerido">
+                    <f:ajax event="change"/>
+                </h:inputText>
+                <p:message for="inputNombre" />
+
                 <h:outputLabel value="Contador : "/>
-                <h:inputText value="#{listaControlador.lista.contador}" id="inputContador"/>
-                <h:outputLabel value="Partido Politico : "/>
-                <h:selectOneMenu value="#{listaControlador.lista}">
-                    <f:selectItems value="#{listaControlador.listaPartido}" id="inputparNom"/>
+                <h:inputText value="#{listaControlador.contador}"
+                             id="inputContador"
+                             required="true"
+                             requiredMessage="El dato es requerido">
+                    <f:ajax event="change"/>
+                </h:inputText>
+                <p:message for="inputContador" />
+
+              <h:outputLabel value="Partido Politico : "/>
+              <h:selectOneMenu value="#{listaControlador.partidopolitico}"
+                                 id="selectPartidopolitico"
+                                 converter="PartidopoliticoConverter"
+                                 converterMessage="Error de conversion">
+                  <f:selectItems value="#{listaControlador.listaPartidopolitico}"
+                                   var="partidopolitico"
+                                   itemLabel="#{partidopolitico.partNombre}"
+                                   id="itemsDelSelect"/>
                 </h:selectOneMenu>
+                <p:message for="selectPartidopolitico" />
+
+              
             </h:panelGrid>
-            <h:panelGrid columns="5">
-                <p:commandButton value="Grabar" action="#{listaControlador.grabar}"/>
-                <p:commandButton value="Borrar" action="#{listaControlador.borrar}"/>
-                <p:commandButton update="inputCodigo, inputNombre, inputparNom, inputContador"
-                                 value="Limpiar"
-                                 action="#{listaControlador.limpiarCampos}"/>
-                <p:commandButton type="pust" value="Buscar" onclick="dialogoLista.show()" immediate="true"/>
-                <p:commandButton value="Salir" onclick="index" action="../index.xhtml" immediate="true"/>
+            <h:panelGrid columns="4" id="panelBotones">
+                <h:commandButton value="Guardar"
+                                 action="#{listaControlador.grabar}"
+                                 style="width: 100px">
+                    <f:ajax render="panelCampos listaTabla"/>
+                </h:commandButton>
+                <h:commandButton value="Borrar"
+                                 actionListener="#{listaControlador.borrar}"
+                                 style="width: 100px"
+                                 id="botonBorrar">
+                    <f:ajax render="panelCampos listaTabla"/>
+                </h:commandButton>
+                <h:commandButton value="Limpiar"
+                                 actionListener="#{listaControlador.limpiar}"
+                                 immediate="true"
+                                 style="width: 100px">
+                    <f:ajax render="panelCampos"/>
+                </h:commandButton>
+                <h:commandButton value="Salir"
+                                 onclick="index"
+                                 action="../index.xhtml" immediate="true"
+                                 style="width: 100px">
+                </h:commandButton>
             </h:panelGrid>
             <p:dialog header="Seleccione una Lista"
                       widgetVar="dialogoLista"
@@ -48,7 +103,6 @@ and open the template in the editor.
 
                 <h:panelGrid>
                     <h:outputText id="listadoDeLista"
-                                  value="Listas"
                                   styleClass="tituloTabla"/>
                     <p:dataTable  id="listaTabla"
                                   paginator="true"
@@ -61,7 +115,7 @@ and open the template in the editor.
                                   value="#{listaControlador.listarTodos}"
                                   rowStyleClass="#{empty rowIx or rowIx mod 2 ne 0 ? 'even-row' : 'odd-row'}"
                                   rowIndexVar="rowIx"
-                                  update="inputCodigo, inputNombre, inputContador, inputparNom"
+                                  update="inputCodigo, inputNombre, inputContador, selectPartidopolitico, itemsDelSelect"
                                   onselectComplete="dialogoLista.hide()"
                                   selection="#{listaControlador.lista}">
 
