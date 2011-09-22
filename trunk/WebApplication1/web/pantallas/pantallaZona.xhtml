@@ -16,25 +16,71 @@ and open the template in the editor.
     <h:body>
         <h1>Zona</h1>
         <h:form>
-            <h:panelGrid columns="2">
+            <h:panelGrid columns="3" id="panelCampos">
                 <h:outputLabel value="Codigo: "/>
-                <h:inputText value="#{zonaControlador.zona.idZona}" id="inputCodZ"/>
+                 <h:panelGroup>
+                     <h:inputText value="#{zonaControlador.codigo}"
+                                 id="inputCodZ"
+                                 required="true"
+                                 requiredMessage="El dato es requerido"
+                                 converterMessage="El dato debe ser un numero entero mayor a 0"
+                                 validatorMessage="El numero debe ser mayor a 0" >
+                                 <f:validateLongRange minimum="1"/>
+                                 <f:ajax event="change"/>
+                    </h:inputText>
+                    <p:commandButton type="pust"
+                                    image="ui-icon-search"
+                                    onclick="dialogoZona.show()"
+                                    style="width: 25px; height: 25px;position: relative; top: 10px" />
+                </h:panelGroup>
+
+                <p:message for="inputCodZ" />
                 <h:outputLabel value="Nombre: "/>
-                <h:inputText value="#{zonaControlador.zona.zonaNombre}" id="inputNoZ"/>
+                <h:inputText value="#{zonaControlador.nombre}"
+                             id="inputNoZ"
+                             required="true"
+                             requiredMessage="El dato es requerido">
+                <f:ajax event="change"/>
+                </h:inputText>
+                <p:message for="inputNoZ"/>
+                
                 <h:outputLabel value="Distrito: "/>
-                <h:selectOneMenu value="#{zonaControlador.zona}">
-                    <f:selectItems value="#{zonaControlador.listaDistritos}" id="inputCodDis" />
+                <h:selectOneMenu value="#{zonaControlador.distrito}"
+                                 id="selectDistrito"
+                                 converter="DistritoConverter"
+                                 converterMessage="Error de conversion">
+                    <f:selectItems value="#{zonaControlador.listaDistritos}"
+                                   var="distrito"
+                                   itemLabel="#{distrito.disNombre}"
+                                   id="itemsDelSelect"/>
                 </h:selectOneMenu>
+                <p:message for="selectDistrito"/>
+
+               
             </h:panelGrid>
-            <h:panelGrid columns="5">
-                <p:commandButton value="Guardar" action="#{zonaControlador.grabar}"/>
-                <p:commandButton value="Borrar"
-                                 action="#{zonaControlador.borrar}"/>
-                <p:commandButton update="inputCodZ, inputNoZ, inputCodDis"
-                                 value="Limpiar"
-                                 action="#{zonaControlador.limpiarCampos}"/>
-                <p:commandButton type="pust" value="Buscar" onclick="dialogoZona.show()" immediate="true"/>
-                <p:commandButton value="Salir" onclick="index" action="../index.xhtml" immediate="true"/>
+             <h:panelGrid columns="4" id="panelBotones">
+                <h:commandButton value="Guardar"
+                                 action="#{zonaControlador.grabar}"
+                                 style="width: 100px">
+                    <f:ajax render="panelCampos zonaTabla"/>
+                </h:commandButton>
+                <h:commandButton value="Borrar"
+                                 actionListener="#{zonaControlador.borrar}"
+                                 style="width: 100px"
+                                 id="botonBorrar">
+                    <f:ajax render="panelCampos zonaTabla"/>
+                </h:commandButton>
+                <h:commandButton value="Limpiar"
+                                 actionListener="#{zonaControlador.limpiar}"
+                                 immediate="true"
+                                 style="width: 100px">
+                    <f:ajax render="panelCampos"/>
+                </h:commandButton>
+                <h:commandButton value="Salir"
+                                 onclick="index"
+                                 action="../index.xhtml" immediate="true"
+                                 style="width: 100px">
+                </h:commandButton>
             </h:panelGrid>
             <p:dialog header="Seleccione una Zona"
                               widgetVar="dialogoZona"
@@ -60,7 +106,7 @@ and open the template in the editor.
                                                           value="#{zonaControlador.listarTodos}"
                                                           rowStyleClass="#{empty rowIx or rowIx mod 2 ne 0 ? 'even-row' : 'odd-row'}"
                                                           rowIndexVar="rowIx"
-                                                          update="inputCodZ, inputNoZ, inputCodDis"
+                                                          update="inputCodZ, inputNoZ, selectDistrito, itemsDelSelect"
                                                           onselectComplete="dialogoZona.hide()"
                                                           selection="#{zonaControlador.zona}">
 

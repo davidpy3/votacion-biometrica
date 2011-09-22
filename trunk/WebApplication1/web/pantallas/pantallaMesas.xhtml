@@ -16,27 +16,71 @@ and open the template in the editor.
     <h:body>
         <h1>Mesas de Votacion</h1>
         <h:form>
-            <h:panelGrid columns="2">
+            <h:panelGrid columns="3" id="panelCampos">
                 <h:outputLabel value="Codigo : " />
-                <h:inputText value="#{mesasControlador.mesas.idMesas}" id="inputCodMes"/>
+                <h:panelGroup>
+                    <h:inputText value="#{mesasControlador.codigo}"
+                             id="inputCodMes"
+                             required="true"
+                             requiredMessage="El dato es requerido"
+                             converterMessage="El dato debe ser un numero entero mayor a 0"
+                             validatorMessage="El numero debe ser mayor a 0">
+                             <f:validateLongRange minimum="1"/>
+                             <f:ajax event="change"/>
+                    </h:inputText>
+                    <p:commandButton type="pust"
+                                    image="ui-icon-search"
+                                    onclick="dialogoMesas.show()"
+                                    style="width: 25px; height: 25px;position: relative; top: 10px"/>
+                </h:panelGroup>
+                <p:message for="inputCodMes" />
+
                 <h:outputLabel value="Nombre de Mesas : "/>
-                <h:inputText value="#{mesasControlador.mesas.meNombre}" id="inputNoMes"/>
-                <h:outputLabel value="Loca : "/>
-               
-                <h:selectOneMenu value="#{mesasControlador.mesas}">
-                    <f:selectItems value="#{mesasControlador.listaLocal}" id="inputLoMes"/>
+                <h:inputText value="#{mesasControlador.nombre}"
+                             id="inputNoMes"
+                             required="true"
+                             requiredMessage="El dato es requerido">
+                    <f:ajax event="change"/>
+                </h:inputText>
+                <p:message for="inputNoMes" />
+
+                 <h:outputLabel value="Loca : "/>
+                 <h:selectOneMenu value="#{mesasControlador.localidad}"
+                                 id="selectLocalidad"
+                                 converter="LocalidadConverter"
+                                 converterMessage="Error de conversion">
+                     <f:selectItems value="#{mesasControlador.listaLocal}"
+                                   var="localidad"
+                                   itemLabel="#{localidad.loNombre}"
+                                   id="itemsDelSelect"/>
                 </h:selectOneMenu>
-               
+                <p:message for="selectLocalidad" />
+                                             
             </h:panelGrid>
-             <h:panelGrid columns="5">
-                 <p:commandButton value="Guardar" action="#{mesasControlador.grabar}"/>
-                <p:commandButton value="Borrar"
-                                 action="#{mesasControlador.borra}"/>
-                <p:commandButton update="inputCodMes, inputNoMes, inputLoMes"
-                                 value="Limpiar"
-                                 action="#{mesasControlador.limpiarCampos}"/>
-                <p:commandButton type="pust" value="Buscar" onclick="dialogoMesas.show()" immediate="true"/>
-                <p:commandButton value="Salir" onclick="index" action="../index.xhtml" immediate="true"/>
+
+              <h:panelGrid columns="4">
+                <h:commandButton value="Guardar"
+                                 actionListener="#{mesasControlador.grabar}"
+                                 style="width: 100px"
+                                 type="submit">
+                   <f:ajax render="panelCampos mesasTabla"/>
+                </h:commandButton>
+                <h:commandButton value="Borrar"
+                                 actionListener="#{mesasControlador.borrar}"
+                                 style="width: 100px">
+                    <f:ajax render="panelCampos mesasTabla"/>
+                </h:commandButton>
+                <h:commandButton  value="Limpiar"
+                                  actionListener="#{mesasControlador.limpiar}"
+                                  immediate="true"
+                                  style="width: 100px">
+                    <f:ajax render="panelCampos"/>
+                </h:commandButton>
+
+                <h:commandButton value="Salir"
+                                 onclick="index"
+                                 action="../index.xhtml" immediate="true"
+                                 style="width: 100px"/>
             </h:panelGrid>
             <p:dialog header="Seleccione una Mesa"
                               widgetVar="dialogoMesas"
@@ -62,7 +106,7 @@ and open the template in the editor.
                                                           value="#{mesasControlador.listarTodos}"
                                                           rowStyleClass="#{empty rowIx or rowIx mod 2 ne 0 ? 'even-row' : 'odd-row'}"
                                                           rowIndexVar="rowIx"
-                                                          update="inputCodMes, inputNoMes, inputLoMes"
+                                                          update="inputCodMes, inputNoMes, selectLocalidad, itemsDelSelect"
                                                           onselectComplete="dialogoMesas.hide()"
                                                           selection="#{mesasControlador.mesas}">
 

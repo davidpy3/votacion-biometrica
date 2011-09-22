@@ -19,25 +19,78 @@ and open the template in the editor.
         <h1>Usuario</h1>
         <h:form>
 
-            <h:panelGrid columns="2">
+            <h:panelGrid columns="3" id="panelCampos">
                 <h:outputLabel value="Codigo: " />
-                <p:inputText value="#{usuarioControlador.usuario.idUsu}" id="inputCodigo"/>
+                <h:panelGroup>
+                    <h:inputText value="#{usuarioControlador.codigousu}"
+                             id="inputCodigo"
+                             required="true"
+                             requiredMessage="El dato es requerido"
+                             converterMessage="El dato debe ser un numero entero mayor a 0"
+                             validatorMessage="El numero debe ser mayor a 0">
+                             <f:validateLongRange minimum="1"/>
+                             <f:ajax event="change"/>
+                    </h:inputText>
+                    <p:commandButton type="pust"
+                                    image="ui-icon-search"
+                                    onclick="dialogoUsuarios.show()"
+                                    style="width: 25px; height: 25px;position: relative; top: 10px"/>
+                </h:panelGroup>
+                <p:message for="inputCodigo" />
+                
                 <h:outputLabel value="Nombre del Usuario: "/>
-                <p:inputText value="#{usuarioControlador.usuario.usuNombre}" id="inputNombre"/>
+                <h:inputText value="#{usuarioControlador.nombreusu}"
+                             id="inputNombre"
+                             required="true"
+                             requiredMessage="El dato es requerido">
+                    <f:ajax event="change"/>
+                </h:inputText>
+                <p:message for="inputNombre" />
+
                 <h:outputLabel value="Password: "/>
-                <p:inputText value="#{usuarioControlador.usuario.password}" id="inputPassword"/>
+                <h:inputText value="#{usuarioControlador.passwordusu}" 
+                             id="inputPassword"
+                             required="true"
+                             requiredMessage="El dato es requerido">
+                    <f:ajax event="change"/>
+                </h:inputText>
+                <p:message for="inputPassword"/>
+                
                 <h:outputLabel value="Descripcion del Ususario"/>
-                <p:inputText value="#{usuarioControlador.usuario.usuDescripcion}" id="inputUsuDes"/>
-            </h:panelGrid>
-            <h:panelGrid columns="5">
-                <p:commandButton value="Guardar" action="#{usuarioControlador.grabar}"/>
-                <p:commandButton value="Borrar"
-                                 action="#{usuarioControlador.borrar}"/>
-                <p:commandButton update="inputCodigo, inputNombre, inputPassword, inputUsuDes"
-                                 value="Limpiar"
-                                 action="#{usuarioControlador.limpiarCampos}"/>
-                <p:commandButton type="pust" value="Buscar" onclick="dialogoUsuarios.show()"/>
-                <p:commandButton value="Salir" onclick="index" action="../index.xhtml" immediate="true"/>
+                <h:inputText value="#{usuarioControlador.descripcionusu}"
+                             id="inputUsuDes"
+                             required="true"
+                             requiredMessage="El dato es requerido">
+                    <f:ajax event="change"/>
+                </h:inputText>
+                <p:message for="inputUsuDes" />
+
+           </h:panelGrid>
+
+
+           <h:panelGrid columns="4">
+                <h:commandButton value="Guardar"
+                                 actionListener="#{usuarioControlador.grabar}"
+                                 style="width: 100px"
+                                 type="submit">
+                   <f:ajax render="panelCampos usuarioTabla"/>
+                </h:commandButton>
+                <h:commandButton value="Borrar"
+                                 actionListener="#{usuarioControlador.borrar}"
+                                 style="width: 100px">
+                    <f:ajax render="panelCampos usuarioTabla"/>
+                </h:commandButton>
+                <h:commandButton  value="Limpiar"
+                                  actionListener="#{usuarioControlador.limpiar}"
+                                  immediate="true"
+                                  style="width: 100px">
+                    <f:ajax render="panelCampos"/>
+                </h:commandButton>
+
+                <h:commandButton value="Salir"
+                                 onclick="index"
+                                 action="../index.xhtml" immediate="true"
+                                 style="width: 100px"/>
             </h:panelGrid>
             <p:dialog header="Seleccione un Usuario"
                               widgetVar="dialogoUsuarios"

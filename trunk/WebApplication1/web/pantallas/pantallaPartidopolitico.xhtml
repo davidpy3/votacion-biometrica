@@ -17,29 +17,88 @@ and open the template in the editor.
         <h1>Partido Politico</h1>
         <h:form>
 
-            <h:panelGrid columns="2">
+            <h:panelGrid columns="3" id="panelCampos">
+
                 <h:outputLabel value="Codigo : "/>
-                <h:inputText value="#{partidopoliticoControlador.partidopolitico.idPartido}" id="inputCodigo"/>
-                <h:outputLabel value="Descripcion : "/>
-                <h:inputText value="#{partidopoliticoControlador.partidopolitico.partNombre}" id="inputNombre"/>
-                <h:outputLabel value="Siglas del Partido : "/>
-                <h:inputText value="#{partidopoliticoControlador.partidopolitico.partSiglas}" id="inputSiglas"/>
+                
+                 <h:panelGroup>
+                     <h:inputText value="#{partidopoliticoControlador.codigo}"
+                             id="inputCodigo"
+                             required="true"
+                             requiredMessage="El dato es requerido"
+                             converterMessage="El dato debe ser un numero entero mayor a 0"
+                             validatorMessage="El numero debe ser mayor a 0">
+                             <f:validateLongRange minimum="1"/>
+                             <f:ajax event="change"/>
+                    </h:inputText>
+                    <p:commandButton type="pust"
+                                    image="ui-icon-search"
+                                    onclick="dialogoPartidopolitico.show()"
+                                    style="width: 25px; height: 25px;position: relative; top: 10px"/>
+                </h:panelGroup>
+                 <p:message for="inputCodigo" />
+
+                  <h:outputLabel value="Descripcion : "/>
+                  <h:inputText value="#{partidopoliticoControlador.nombre}"
+                             id="inputNombre"
+                             required="true"
+                             requiredMessage="El dato es requerido">
+                    <f:ajax event="change"/>
+                </h:inputText>
+                <p:message for="inputNombre" />
+
+                 <h:outputLabel value="Siglas del Partido : "/>
+                 <h:inputText value="#{partidopoliticoControlador.siglas}"
+                             id="inputSiglas"
+                             required="true"
+                             requiredMessage="El dato es requerido">
+                    <f:ajax event="change"/>
+                </h:inputText>
+                <p:message for="inputSiglas" />
+
                 <h:outputLabel value="Lema del Patido : "/>
-                <h:inputText value="#{partidopoliticoControlador.partidopolitico.partLema}" id="inputLema"/>
+                <h:inputText value="#{partidopoliticoControlador.lema}"
+                             id="inputLema"
+                             required="true"
+                             requiredMessage="El dato es requerido">
+                    <f:ajax event="change"/>
+                </h:inputText>
+                <p:message for="inputLema" />
+               
                 <h:outputLabel value="Color del Partido : "/>
-                <h:inputText value="#{partidopoliticoControlador.partidopolitico.partColor}" id="inputColor"/>
+                <h:inputText value="#{partidopoliticoControlador.color}"
+                             id="inputColor"
+                             required="true"
+                             requiredMessage="El dato es requerido">
+                    <f:ajax event="change"/>
+                </h:inputText>
+                <p:message for="inputColor" />
+
             </h:panelGrid>
-            <h:panelGrid columns="5">
-                <p:commandButton value="Guardar"
-                                 action="#{partidopoliticoControlador.grabar}"/>
-                <p:commandButton value="Borrar" action="#{partidopoliticoControlador.borrar}"/>
-                <p:commandButton update="inputCodigo, inputNombre, inputSiglas, inputLema, inputColor"
-                                 value="Limpiar"
-                                 action="#{partidopoliticoControlador.limpiarCampos}"/>
-                <p:commandButton type="pust"
-                                 value="Buscar"
-                                 onclick="dialogoPartidopolitico.show()"/>
-                <p:commandButton value="Salir" onclick="index" action="../index.xhtml" immediate="true"/>
+
+            <h:panelGrid columns="4">
+                <h:commandButton value="Guardar"
+                                 actionListener="#{partidopoliticoControlador.grabar}"
+                                 style="width: 100px"
+                                 type="submit">
+                   <f:ajax render="panelCampos partidopoliticoTabla"/>
+                </h:commandButton>
+                <h:commandButton value="Borrar"
+                                 actionListener="#{partidopoliticoControlador.borrar}"
+                                 style="width: 100px">
+                    <f:ajax render="panelCampos partidopoliticoTabla"/>
+                </h:commandButton>
+                <h:commandButton  value="Limpiar"
+                                  actionListener="#{partidopoliticoControlador.limpiar}"
+                                  immediate="true"
+                                  style="width: 100px">
+                    <f:ajax render="panelCampos"/>
+                </h:commandButton>
+
+                <h:commandButton value="Salir"
+                                 onclick="index"
+                                 action="../index.xhtml" immediate="true"
+                                 style="width: 100px"/>
             </h:panelGrid>
             <p:dialog header="Seleccione un Partido Politico"
                       widgetVar="dialogoPartidopolitico"
@@ -52,7 +111,6 @@ and open the template in the editor.
 
                 <h:panelGrid>
                     <h:outputText id="listadoDePartidopolitico"
-                                  value="Partido Politico"
                                   styleClass="tituloTabla"/>
                     <p:dataTable  id="partidopoliticoTabla"
                                   paginator="true"
