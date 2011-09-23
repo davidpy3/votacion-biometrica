@@ -85,6 +85,9 @@ public class ProfesionControlador implements Serializable {
     public List<Profesion> getListarTodos() {
         return genericoEJB.getEm().createNamedQuery("Profesion.findAll").getResultList();
     }
+    public void limpiar(ActionEvent actionEvent){
+        limpiarCampos();
+    }
 
     public void limpiarCampos() {
         profesion = null;
