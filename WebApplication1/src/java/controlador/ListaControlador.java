@@ -71,18 +71,7 @@ public class ListaControlador implements Serializable {
         this.genericoEJB = genericoEJB;
     }
 
-    
-/**
-    public void setLista(Lista lista) {
-        if (lista !=null){
-        setCodigo(lista.getIdLista().toString());
-        setNombre(lista.getLisNombre());
-        setContador(lista.getContador().toString());
-        setPartidopolitico(lista.getPartidopolitico());
-        }
-          this.lista = lista;
-    }
- */
+
     public List<Lista> getListarTodos(){
         return genericoEJB.getEm().createNamedQuery("Lista.findAll").getResultList();
     }
@@ -108,17 +97,28 @@ public class ListaControlador implements Serializable {
         
 
     }
-     public Lista getLista() {
-        if (lista == null) {
-            lista=new Lista();
 
+    public Lista getLista() {
+         if (lista == null) {
+            lista=new Lista();
         }
         return lista;
     }
 
+    public void setLista(Lista lista) {
+         if (lista !=null){
+        setCodigo(lista.getIdLista().toString());
+        setNombre(lista.getLisNombre());
+        setContador(lista.getContador().toString());
+        setPartidopolitico(lista.getPartidopolitico());
+        }
+        this.lista = lista;
+    }
+   
+
     /**
      * @param lista the lista to set
-     */
+   
     public void setLista(Lista lista) {
          if (lista !=null){
         setCodigo(lista.getIdLista().toString());
@@ -128,7 +128,17 @@ public class ListaControlador implements Serializable {
         }
           this.lista = lista;
      }
+     /**
+     * @return the lista
 
+       public Lista getLista() {
+        if (lista == null) {
+            lista=new Lista();
+
+        }
+        return lista;
+    }
+*/
 
     /**
      * @return the codigo
@@ -141,6 +151,9 @@ public class ListaControlador implements Serializable {
      * @param codigo the codigo to set
      */
     public void setCodigo(String codigo) {
+        if (!codigo.equalsIgnoreCase("")&&lista!=null) {
+            lista.setIdLista(Long.parseLong(codigo));
+        }
         this.codigo = codigo;
     }
 
@@ -155,7 +168,9 @@ public class ListaControlador implements Serializable {
      * @param nombre the nombre to set
      */
     public void setNombre(String nombre) {
-        
+        if (!nombre.equalsIgnoreCase("")&&lista!=null) {
+            lista.setLisNombre(nombre);
+        }
         this.nombre = nombre;
     }
 
@@ -170,6 +185,9 @@ public class ListaControlador implements Serializable {
      * @param contador the contador to set
      */
     public void setContador(String contador) {
+        if (!contador.equalsIgnoreCase("")&&lista!=null) {
+            lista.setContador(Integer.parseInt(contador));
+        }
         this.contador = contador;
     }
 
@@ -187,11 +205,10 @@ public class ListaControlador implements Serializable {
      */
     public void setPartidopolitico(Partidopolitico partidopolitico) {
         this.partidopolitico = partidopolitico;
+
+
     }
 
-    /**
-     * @return the lista
-     */
    
 
 }
