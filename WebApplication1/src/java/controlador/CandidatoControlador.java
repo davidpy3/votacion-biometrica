@@ -68,20 +68,37 @@ public class CandidatoControlador implements Serializable {
         getCandidato().setDepartamento(departamento);
         getCandidato().setDistrito(distrito);
         if (modificar) {
-            genericoEJB.actulizar(getCandidato());
+            genericoEJB.actulizar(candidato);
         }else{
-            genericoEJB.insertar(getCandidato());
+            genericoEJB.insertar(candidato);
         }
         limpiarCampos();
     }
 
     public void borrar(ActionEvent actionEvent) {
-        genericoEJB.eliminar(getCandidato());
+        genericoEJB.eliminar(candidato);
         limpiarCampos();
     }
 
     public void actualizacion() {
-        genericoEJB.actulizar(getCandidato());
+        genericoEJB.actulizar(candidato);
+    }
+     public void limpiar(ActionEvent actionEvent){
+        limpiarCampos();
+    }
+
+    public void limpiarCampos() {
+        setCandidato(null);
+        setCodigo("");
+        setNombre("");
+        setApellido("");
+        setCi("");
+        setFoto("");
+        setIdlist("");
+        setIdelec("");
+        setFeincrip(null);
+        setIdcandepart("");
+        setIdcandist("");
     }
     /*
 
@@ -123,10 +140,10 @@ public class CandidatoControlador implements Serializable {
     }
 
     public List<SelectItem> getListaDistritos() {
-        List<Distrito> lista = genericoEJB.getEm().createNamedQuery("Distrito.findAll").getResultList();
+        List<Distrito> lista1 = genericoEJB.getEm().createNamedQuery("Distrito.findAll").getResultList();
 
         List<SelectItem> items = new ArrayList<SelectItem>();
-        for (Distrito elemento : lista) {
+        for (Distrito elemento : lista1) {
             items.add(new SelectItem(elemento, elemento.getDisNombre()));
         }
 
@@ -134,50 +151,32 @@ public class CandidatoControlador implements Serializable {
     }
 
     public List<SelectItem> getListaDepartamento() {
-        List<Departamento> lista1 = genericoEJB.getEm().createNamedQuery("Departamento.findAll").getResultList();
+        List<Departamento> lista2 = genericoEJB.getEm().createNamedQuery("Departamento.findAll").getResultList();
         List<SelectItem> items = new ArrayList<SelectItem>();
-        for (Departamento elementod : lista1) {
+        for (Departamento elementod : lista2) {
             items.add(new SelectItem(elementod, elementod.getDepNombre()));
         }
         return items;
     }
 
     public List<SelectItem> getListaEleccionTipo() {
-        List<Elecciontipo> lista2 = genericoEJB.getEm().createNamedQuery("Elecciontipo.findAll").getResultList();
+        List<Elecciontipo> lista3 = genericoEJB.getEm().createNamedQuery("Elecciontipo.findAll").getResultList();
         List<SelectItem> items = new ArrayList<SelectItem>();
-        for (Elecciontipo elementoe : lista2) {
+        for (Elecciontipo elementoe : lista3) {
             items.add(new SelectItem(elementoe, elementoe.getElecNombre()));
         }
         return items;
     }
 
     public List<SelectItem> getListaLis() {
-        List<Lista> lista3 = genericoEJB.getEm().createNamedQuery("Lista.findAll").getResultList();
+        List<Lista> lista4 = genericoEJB.getEm().createNamedQuery("Lista.findAll").getResultList();
         List<SelectItem> items = new ArrayList<SelectItem>();
-        for (Lista elementol : lista3) {
+        for (Lista elementol : lista4) {
             items.add(new SelectItem(elementol, elementol.getLisNombre()));
         }
         return items;
     }
-     public void limpiar(ActionEvent actionEvent){
-        limpiarCampos();
-    }
-
-    public void limpiarCampos() {
-        setCandidato(null);
-        setCodigo("");
-        setNombre("");
-        setApellido("");
-        setCi("");
-        setFoto("");
-        setIdlist("");
-        setIdelec("");
-        setFeincrip(null);
-        setIdcandepart("");
-        setIdcandist("");
-    }
-
-    /**
+     /**
      * @return the codigo
      */
     public String getCodigo() {
