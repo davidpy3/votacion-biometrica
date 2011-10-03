@@ -149,7 +149,7 @@ and open the template in the editor.
                     <f:selectItems value="#{electorControlador.listaLocalidad}"
                                    var="localidad"
                                    itemLabel="#{localidad.loNombre}"
-                                   id="itemsDelSelect"/>
+                                   id="itemsDelSelectLo"/>
                 </h:selectOneMenu>
                 <p:message for="selectLocalidad" />
 
@@ -162,7 +162,7 @@ and open the template in the editor.
                     <f:selectItems value="#{electorControlador.listaProfesion}"
                                    var="profesion"
                                    itemLabel="#{profesion.proNombre}"
-                                   id="itemsDelSelect"/>
+                                   id="itemsDelSelectPro"/>
                 </h:selectOneMenu>
                 <p:message for="selectProfesion" />
 
@@ -183,7 +183,7 @@ and open the template in the editor.
                     <f:selectItems value="#{electorControlador.listaMesas}"
                                    var="mesas"
                                    itemLabel="#{mesas.meNombre}"
-                                   id="itemsDelSelect"/>
+                                   id="itemsDelSelectMe"/>
                 </h:selectOneMenu>
                 <p:message for="selectMesas" />
         
@@ -236,7 +236,7 @@ and open the template in the editor.
                                   value="#{electorControlador.listarTodos}"
                                   rowStyleClass="#{empty rowIx or rowIx mod 2 ne 0 ? 'even-row' : 'odd-row'}"
                                   rowIndexVar="rowIx"
-                                  update="inputEid, inputEnom, inputEape, inputEci, inputeleNac, inputEhu, inputEfo, inputEse, inputEfn, inputEdi, inputEf, inputEec,  inputeleVo, itemsDelSelect, selectLocalidad, selectProfesion, selectMesas"
+                                  update="inputEid, inputEnom, inputEape, inputEci, inputeleNac, inputEhu, inputEfo, inputEse, inputEfn, inputEdi, inputEf, inputEec,  inputeleVo, selectLocalidad, selectProfesion, selectMesas, itemsDelSelectLo, itemsDelSelectPro, itemsDelSelectMe"
                                   onselectComplete="dialogoElector.hide()"
                                   selection="#{electorControlador.elector}">
 
