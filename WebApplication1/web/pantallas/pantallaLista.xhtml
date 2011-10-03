@@ -54,17 +54,17 @@ and open the template in the editor.
                 </h:inputText>
                 <p:message for="inputContador" />
 
-              <h:outputLabel value="Partido Politico : "/>
-              <h:selectOneMenu value="#{listaControlador.partidopolitico}"
+             <h:outputLabel value="Partido Politico: "/>
+             <h:selectOneMenu value="#{listaControlador.partidopolitico}"
                                  id="selectPartidopolitico"
                                  converter="PartidopoliticoConverter"
                                  converterMessage="Error de conversion">
-                  <f:selectItems value="#{listaControlador.listaPartidopolitico}"
+                 <f:selectItems value="#{listaControlador.listaPartidopolitico}"
                                    var="partidopolitico"
                                    itemLabel="#{partidopolitico.partNombre}"
                                    id="itemsDelSelect"/>
                 </h:selectOneMenu>
-                <p:message for="selectPartidopolitico" />
+                <p:message for="selectPartidopolitico"/>
 
               
             </h:panelGrid>
