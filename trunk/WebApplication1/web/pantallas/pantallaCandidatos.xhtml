@@ -82,7 +82,7 @@ and open the template in the editor.
                     <f:selectItems value="#{candidatoControlador.listaLis}"
                                    var="lista"
                                    itemLabel="#{lista.lisNombre}"
-                                   id="itemsDelSelect"/>
+                                   id="itemsDelSelectli"/>
                 </h:selectOneMenu>
                 <p:message for="selectLista" />
 
@@ -95,7 +95,7 @@ and open the template in the editor.
                     <f:selectItems value="#{candidatoControlador.listaEleccionTipo}"
                                    var="elecciontipo"
                                    itemLabel="#{elecciontipo.elecNombre}"
-                                   id="itemsDelSelect"/>
+                                   id="itemsDelSelectele"/>
                 </h:selectOneMenu>
                 <p:message for="selectElecciontipo" />
 
@@ -117,7 +117,7 @@ and open the template in the editor.
                     <f:selectItems value="#{candidatoControlador.listaDepartamento}"
                                    var="departamento"
                                    itemLabel="#{departamento.depNombre}"
-                                   id="itemsDelSelect"/>
+                                   id="itemsDelSelectde"/>
                 </h:selectOneMenu>
 
                 <p:message for="selectDepartamento" />
@@ -129,7 +129,7 @@ and open the template in the editor.
                     <f:selectItems value="#{candidatoControlador.listaDistritos}"
                                    var="departamento"
                                    itemLabel="#{distrito.canNombre}"
-                                   id="itemsDelSelect"/>
+                                   id="itemsDelSelectdis"/>
                 </h:selectOneMenu>
 
                 <p:message for="selectDistrito" />
@@ -184,7 +184,7 @@ and open the template in the editor.
                                  value="#{candidatoControlador.listarTodos}"
                                  rowStyleClass="#{empty rowIx or rowIx mod 2 ne 0 ? 'even-row' : 'odd-row'}"
                                  rowIndexVar="rowIx"
-                                 update="inputCodigocan, inputNombrecan, inputApellidocan, inputCican, inputFotocan, inputfeincripcan, selectLista, selectElecciontipo, selectDistrito, selectDepartamento, itemsDelSelect"
+                                 update="inputCodigocan, inputNombrecan, inputApellidocan, inputCican, inputFotocan, inputfeincripcan, selectLista, selectElecciontipo, selectDistrito, selectDepartamento, itemsDelSelectli, itemsDelSelectele, itemsDelSelectde, itemsDelSelectdis"
                                  onselectComplete="dialogoCandidato.hide()"
                                  selection="#{candidatoControlador.candidato}">
 
