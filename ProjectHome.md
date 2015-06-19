@@ -1,0 +1,1 @@
+Esta aplicacio se puede utilizar para las elecciones partidarias, el mismo cuenta con un control biometrico de los votantes
